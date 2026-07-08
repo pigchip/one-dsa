@@ -1,29 +1,31 @@
-import { LanguageFilterProvider } from '@/context/LanguageFilterProvider'
+import { Routes, Route } from 'react-router-dom'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
-import { Hero } from '@/components/sections/Hero'
-import { ColorLegend } from '@/components/sections/ColorLegend'
-import { LanguageToggles } from '@/components/sections/LanguageToggles'
-import { SyntaxTable } from '@/components/sections/SyntaxTable'
-import { InputPatterns } from '@/components/sections/InputPatterns'
-import { HowToStart } from '@/components/sections/HowToStart'
-import { DsaTemplates } from '@/components/sections/DsaTemplates'
+import { Dashboard } from '@/pages/Dashboard'
+import { Library } from '@/pages/Library'
+import { PatternPage } from '@/pages/PatternPage'
+import { Practice } from '@/pages/Practice'
+import { Reference } from '@/pages/Reference'
+import { Settings } from '@/pages/Settings'
+import { NotFound } from '@/pages/NotFound'
 
 function App() {
   return (
-    <LanguageFilterProvider>
+    <>
       <Navbar />
       <main>
-        <Hero />
-        <ColorLegend />
-        <LanguageToggles />
-        <SyntaxTable />
-        <InputPatterns />
-        <HowToStart />
-        <DsaTemplates />
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/library" element={<Library />} />
+          <Route path="/library/:patternId" element={<PatternPage />} />
+          <Route path="/practice" element={<Practice />} />
+          <Route path="/reference" element={<Reference />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </main>
       <Footer />
-    </LanguageFilterProvider>
+    </>
   )
 }
 
