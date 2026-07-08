@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python vs C# vs TypeScript vs Rust • Syntax Comparison &amp; DSA Templates</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --font-sans: 'Inter', system_ui, sans-serif;
+            --font-display: 'Space Grotesk', 'Inter', sans-serif;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+        }
+        
+        .font-display {
+            font-family: var(--font-display);
+        }
+
+        .syntax-table td, .syntax-table th {
+            padding: 12px 16px;
+            vertical-align: top;
+        }
+        
+        .syntax-table pre, .syntax-table code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        
+        .lang-header {
+            writing-mode: horizontal-tb;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .topic-cell {
+            font-weight: 600;
+            color: #1f2937;
+            background-color: #f8fafc;
+        }
+
+        .code-cell {
+            background-color: #0f172a;
+            color: #e0f0fe;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 12.5px;
+            overflow-x: auto;
+        }
+
+        .green-cell {
+            background-color: #dcfce7 !important;
+            border-left: 4px solid #22c55e;
+        }
+        
+        .red-cell {
+            background-color: #fee2e2 !important;
+            border-left: 4px solid #ef4444;
+        }
+
+        .neutral-cell {
+            background-color: #f1e7ff !important;
+            border-left: 4px solid #a855f7;
+        }
+
+        details summary {
+            list-style: none;
+        }
+        
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .template-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .template-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        .section-header {
+            background: linear-gradient(90deg, #0f172a, #1e2937);
+            color: white;
+        }
+
+        .nav-active {
+            border-bottom: 3px solid #22c55e;
+            font-weight: 600;
+        }
+        
+        .comparison-note {
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+    <!-- Navbar -->
+    <nav class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="w-10 h-10 bg-emerald-500 rounded-2xl flex items-center justify-center">
+                    <i class="fa-solid fa-code text-white text-3xl"></i>
+                </div>
+                <div>
+                    <span class="font-display text-2xl font-semibold tracking-tighter">SyntaxLab</span>
+                    <span class="text-emerald-400 text-sm font-medium ml-1">2026</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-x-2 text-sm">
+                <a href="#syntax-comparison" class="px-4 py-2 hover:bg-slate-800 rounded-xl transition-colors">Syntax Table</a>
+                <a href="#input-patterns" class="px-4 py-2 hover:bg-slate-800 rounded-xl transition-colors">Input Patterns</a>
+                <a href="#dsa-templates" class="px-4 py-2 hover:bg-slate-800 rounded-xl transition-colors">DSA Templates</a>
+                <a href="#how-to-start" class="px-4 py-2 hover:bg-slate-800 rounded-xl transition-colors">From Blank File</a>
+            </div>
+            <div class="flex items-center gap-x-2">
+                <div class="px-3 py-1.5 bg-slate-800 rounded-2xl text-xs flex items-center gap-x-2">
+                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                    <span class="text-emerald-400 font-medium">4 Languages</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="max-w-screen-xl mx-auto px-6 pt-12 pb-8">
+        <div class="max-w-3xl">
+            <div class="inline-flex items-center gap-x-2 px-4 py-1.5 bg-slate-900 rounded-3xl mb-6 border border-slate-800">
+                <span class="text-emerald-400"><i class="fa-solid fa-globe fa-fw"></i></span>
+                <span class="text-sm font-medium">Python • C# • TypeScript • Rust</span>
+            </div>
+            
+            <h1 class="font-display text-6xl font-semibold tracking-tighter leading-none mb-4">
+                Syntax Comparison.<br>
+                <span class="text-emerald-400">DSA Templates.</span><br>
+                From blank file to solution.
+            </h1>
+            <p class="text-xl text-slate-400 max-w-lg">
+                A practical guide comparing core syntax across four languages and the exact techniques needed to implement every common DSA code template from scratch.
+            </p>
+            
+            <div class="flex items-center gap-x-4 mt-8">
+                <a href="#syntax-comparison" 
+                   class="inline-flex items-center justify-center px-6 py-3.5 bg-emerald-500 hover:bg-emerald-600 transition-colors text-white font-semibold rounded-3xl text-sm">
+                    <i class="fa-solid fa-table mr-2"></i>
+                    Explore Syntax Table
+                </a>
+                <a href="#dsa-templates" 
+                   class="inline-flex items-center justify-center px-6 py-3.5 bg-slate-800 hover:bg-slate-700 transition-colors font-semibold rounded-3xl text-sm border border-slate-700">
+                    <i class="fa-solid fa-list mr-2"></i>
+                    View All Templates
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Color Legend -->
+    <div class="max-w-screen-xl mx-auto px-6 pb-8">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5">
+            <div class="flex flex-wrap items-center gap-x-8 gap-y-3 text-sm">
+                <div class="flex items-center gap-x-2">
+                    <span class="font-semibold text-emerald-400">GREEN</span>
+                    <span class="text-slate-400">= Similar / concise syntax (Python-like, low ceremony)</span>
+                </div>
+                <div class="flex items-center gap-x-2">
+                    <span class="font-semibold text-red-400">RED</span>
+                    <span class="text-slate-400">= Different / more verbose or paradigm shift (static typing, ownership, explicit OOP)</span>
+                </div>
+                <div class="flex items-center gap-x-2">
+                    <span class="font-semibold text-purple-400">PURPLE</span>
+                    <span class="text-slate-400">= Neutral / modern flexible syntax (TypeScript)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Language Selection Toggles -->
+    <div class="max-w-screen-xl mx-auto px-6 pb-6">
+        <div class="flex flex-col items-center">
+            <div class="text-xs uppercase tracking-[2px] text-slate-500 mb-3 font-medium">Filter by language (click to toggle)</div>
+            <div id="lang-toggles" class="flex items-center justify-center gap-x-3">
+                <!-- Populated by JS + inline for initial render -->
+                <button data-lang="python" onclick="toggleLanguage('python', this)"
+                        class="lang-btn active flex items-center justify-center w-14 h-14 rounded-full bg-slate-900 border-2 border-emerald-500 shadow-inner transition-all hover:scale-105 active:scale-95">
+                    <div class="flex flex-col items-center">
+                        <i class="fa-brands fa-python text-emerald-400 text-2xl"></i>
+                        <span class="text-[9px] font-bold text-emerald-400 mt-0.5">PY</span>
+                    </div>
+                </button>
+                <button data-lang="csharp" onclick="toggleLanguage('csharp', this)"
+                        class="lang-btn active flex items-center justify-center w-14 h-14 rounded-full bg-slate-900 border-2 border-purple-500 shadow-inner transition-all hover:scale-105 active:scale-95">
+                    <div class="flex flex-col items-center">
+                        <i class="fa-brands fa-microsoft text-purple-400 text-2xl"></i>
+                        <span class="text-[9px] font-bold text-purple-400 mt-0.5">CS</span>
+                    </div>
+                </button>
+                <button data-lang="typescript" onclick="toggleLanguage('typescript', this)"
+                        class="lang-btn active flex items-center justify-center w-14 h-14 rounded-full bg-slate-900 border-2 border-sky-500 shadow-inner transition-all hover:scale-105 active:scale-95">
+                    <div class="flex flex-col items-center">
+                        <i class="fa-brands fa-js text-sky-400 text-2xl"></i>
+                        <span class="text-[9px] font-bold text-sky-400 mt-0.5">TS</span>
+                    </div>
+                </button>
+                <button data-lang="rust" onclick="toggleLanguage('rust', this)"
+                        class="lang-btn active flex items-center justify-center w-14 h-14 rounded-full bg-slate-900 border-2 border-orange-500 shadow-inner transition-all hover:scale-105 active:scale-95">
+                    <div class="flex flex-col items-center">
+                        <i class="fa-brands fa-rust text-orange-400 text-2xl"></i>
+                        <span class="text-[9px] font-bold text-orange-400 mt-0.5">RS</span>
+                    </div>
+                </button>
+            </div>
+            <div class="mt-2 text-[10px] text-slate-500">All languages selected by default • Click any to filter table &amp; content</div>
+        </div>
+    </div>
+
+    <!-- SYNTAX COMPARISON TABLE -->
+    <div id="syntax-comparison" class="max-w-screen-xl mx-auto px-6 pb-16">
+        <div class="flex items-end justify-between mb-6">
+            <div>
+                <h2 class="font-display text-4xl font-semibold tracking-tight">1. Syntax Comparison Table</h2>
+                <p class="text-slate-400 mt-1">Core language constructs side-by-side. <span class="text-emerald-400">Columns dynamically filter</span> based on selected languages above.</p>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto rounded-3xl border border-slate-800 shadow-2xl">
+            <table class="syntax-table w-full min-w-[1100px] bg-slate-900">
+                <thead>
+                    <tr class="bg-slate-950">
+                        <th class="w-56 text-left px-6 py-5 text-sm font-semibold text-slate-300">Syntax Topic</th>
+                        <th data-lang="python" class="w-80 text-center">
+                            <div class="flex flex-col items-center">
+                                <span class="text-emerald-400"><i class="fa-brands fa-python fa-lg"></i></span>
+                                <span class="font-semibold mt-1">Python</span>
+                            </div>
+                        </th>
+                        <th data-lang="csharp" class="w-80 text-center">
+                            <div class="flex flex-col items-center">
+                                <span class="text-purple-400"><i class="fa-brands fa-microsoft fa-lg"></i></span>
+                                <span class="font-semibold mt-1">C#</span>
+                            </div>
+                        </th>
+                        <th data-lang="typescript" class="w-80 text-center">
+                            <div class="flex flex-col items-center">
+                                <span class="text-sky-400"><i class="fa-brands fa-js fa-lg"></i></span>
+                                <span class="font-semibold mt-1">TypeScript</span>
+                            </div>
+                        </th>
+                        <th data-lang="rust" class="w-80 text-center">
+                            <div class="flex flex-col items-center">
+                                <span class="text-orange-400"><i class="fa-brands fa-rust fa-lg"></i></span>
+                                <span class="font-semibold mt-1">Rust</span>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800 text-sm">
+                    
+                    <!-- Row 1: Variable Declaration -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">Variable Declaration<br><span class="text-xs text-slate-500 font-normal">(mutable)</span></td>
+                        <td class="green-cell"><pre class="code-cell"><code>x = 42
+# or with type hint
+x: int = 42</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>int x = 42;
+// or
+var x = 42;</code></pre></td>
+                        <td class="neutral-cell"><pre class="code-cell"><code>let x: number = 42;
+// or
+let x = 42;</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>let x: i32 = 42;
+// or
+let x = 42;</code></pre></td>
+                    </tr>
+
+                    <!-- Row 2: Constants -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">Constants /<br>Immutable Variables</td>
+                        <td class="green-cell"><pre class="code-cell"><code>PI = 3.14159
+# Python 3.8+
+from typing import Final
+PI: Final = 3.14159</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>const double PI = 3.14159;
+// or readonly
+public readonly double PI = 3.14159;</code></pre></td>
+                        <td class="neutral-cell"><pre class="code-cell"><code>const PI = 3.14159;
+// or
+const PI: number = 3.14159;</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>const PI: f64 = 3.14159;
+// or
+let pi = 3.14159; // immutable by default</code></pre></td>
+                    </tr>
+
+                    <!-- Row 3: Function / Method -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">Function / Method<br>Definition</td>
+                        <td class="green-cell"><pre class="code-cell"><code>def add(a: int, b: int) -&gt; int:
+    return a + b</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>int Add(int a, int b) {
+    return a + b;
+}</code></pre></td>
+                        <td class="neutral-cell"><pre class="code-cell"><code>function add(a: number, b: number): number {
+    return a + b;
+}
+// or arrow
+const add = (a: number, b: number): number =&gt; a + b;</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>fn add(a: i32, b: i32) -&gt; i32 {
+    a + b
+}</code></pre></td>
+                    </tr>
+
+                    <!-- Row 4: Class / Struct -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">Class / Struct +<br>Constructor</td>
+                        <td class="green-cell"><pre class="code-cell"><code>class Solution:
+    def __init__(self):
+        self.data: list[int] = []</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>public class Solution {
+    private List&lt;int&gt; data;
+    public Solution() {
+        data = new List&lt;int&gt;();
+    }
+}</code></pre></td>
+                        <td class="neutral-cell"><pre class="code-cell"><code>class Solution {
+    private data: number[] = [];
+    constructor() {}
+}</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>struct Solution {
+    data: Vec&lt;i32&gt;,
+}
+impl Solution {
+    fn new() -&gt; Self {
+        Solution { data: vec![] }
+    }
+}</code></pre></td>
+                    </tr>
+
+                    <!-- Row 5: Inheritance / Traits -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">Inheritance /<br>Interfaces / Traits</td>
+                        <td class="green-cell"><pre class="code-cell"><code>class Animal:
+    def speak(self): pass
+
+class Dog(Animal):
+    def speak(self): return "woof"</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>public interface IAnimal {
+    string Speak();
+}
+public class Dog : IAnimal {
+    public string Speak() =&gt; "woof";
+}</code></pre></td>
+                        <td class="neutral-cell"><pre class="code-cell"><code>interface Animal {
+    speak(): string;
+}
+class Dog implements Animal {
+    speak() { return "woof"; }
+}</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>trait Animal {
+    fn speak(&amp;self) -&gt; String;
+}
+struct Dog;
+impl Animal for Dog {
+    fn speak(&amp;self) -&gt; String {
+        "woof".to_string()
+    }
+}</code></pre></td>
+                    </tr>
+
+                    <!-- Row 6: If / Else -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">If / Else<br>Conditional</td>
+                        <td class="green-cell"><pre class="code-cell"><code>if x &gt; 0:
+    print("positive")
+elif x == 0:
+    print("zero")
+else:
+    print("negative")</code></pre></td>
+                        <td class="green-cell"><pre class="code-cell"><code>if (x &gt; 0) {
+    Console.WriteLine("positive");
+} else if (x == 0) {
+    Console.WriteLine("zero");
+} else {
+    Console.WriteLine("negative");
+}</code></pre></td>
+                        <td class="green-cell"><pre class="code-cell"><code>if (x &gt; 0) {
+    console.log("positive");
+} else if (x === 0) {
+    console.log("zero");
+} else {
+    console.log("negative");
+}</code></pre></td>
+                        <td class="green-cell"><pre class="code-cell"><code>if x &gt; 0 {
+    println!("positive");
+} else if x == 0 {
+    println!("zero");
+} else {
+    println!("negative");
+}</code></pre></td>
+                    </tr>
+
+                    <!-- Row 7: For Loop -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">For Loop<br>(range / collection)</td>
+                        <td class="green-cell"><pre class="code-cell"><code>for i in range(10):
+    print(i)
+
+for num in nums:
+    print(num)</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>for (int i = 0; i &lt; 10; i++) { }
+foreach (int num in nums) { }</code></pre></td>
+                        <td class="neutral-cell"><pre class="code-cell"><code>for (let i = 0; i &lt; 10; i++) { }
+for (const num of nums) { }</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>for i in 0..10 { }
+for num in &amp;nums { }</code></pre></td>
+                    </tr>
+
+                    <!-- Row 8: While Loop -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">While Loop</td>
+                        <td class="green-cell"><pre class="code-cell"><code>while left &lt; right:
+    # logic
+    left += 1</code></pre></td>
+                        <td class="green-cell"><pre class="code-cell"><code>while (left &lt; right) {
+    // logic
+    left++;
+}</code></pre></td>
+                        <td class="green-cell"><pre class="code-cell"><code>while (left &lt; right) {
+    // logic
+    left++;
+}</code></pre></td>
+                        <td class="green-cell"><pre class="code-cell"><code>while left &lt; right {
+    // logic
+    left += 1;
+}</code></pre></td>
+                    </tr>
+
+                    <!-- Row 9: Array / List / Vector -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">Array / List / Vector<br>Init + Access + Length</td>
+                        <td class="green-cell"><pre class="code-cell"><code>arr = [1, 2, 3]
+arr[0]           # access
+len(arr)         # length
+arr.append(4)</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>int[] arr = {1,2,3};
+List&lt;int&gt; list = new();
+list.Add(4);
+list[0]
+list.Count</code></pre></td>
+                        <td class="neutral-cell"><pre class="code-cell"><code>const arr: number[] = [1,2,3];
+arr[0]
+arr.length
+arr.push(4)</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>let arr = vec![1,2,3];
+arr[0]
+arr.len()
+arr.push(4);</code></pre></td>
+                    </tr>
+
+                    <!-- Row 10: HashMap / Dict -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">HashMap / Dictionary<br>/ Object</td>
+                        <td class="green-cell"><pre class="code-cell"><code>d = {"a": 1, "b": 2}
+d["a"] = 10
+d.get("c", 0)</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>Dictionary&lt;string,int&gt; d = new();
+d["a"] = 1;
+d.TryGetValue("c", out int v);</code></pre></td>
+                        <td class="neutral-cell"><pre class="code-cell"><code>const d: Record&lt;string,number&gt; = {a:1};
+d["a"] = 10;
+d["c"] ?? 0</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>use std::collections::HashMap;
+let mut d = HashMap::new();
+d.insert("a", 1);
+d.get("c").unwrap_or(&amp;0);</code></pre></td>
+                    </tr>
+
+                    <!-- Row 11: Error Handling -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">Error Handling</td>
+                        <td class="green-cell"><pre class="code-cell"><code>try:
+    risky()
+except ValueError as e:
+    print(e)
+# or
+result = risky() or default</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>try {
+    risky();
+} catch (Exception e) {
+    Console.WriteLine(e);
+}</code></pre></td>
+                        <td class="neutral-cell"><pre class="code-cell"><code>try {
+    risky();
+} catch (e: Error) {
+    console.error(e);
+}</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>match risky() {
+    Ok(val) =&gt; val,
+    Err(e) =&gt; { /* handle */ }
+}
+// or ? operator in fn returning Result</code></pre></td>
+                    </tr>
+
+                    <!-- Row 12: Imports -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">Imports / Modules /<br>Namespaces</td>
+                        <td class="green-cell"><pre class="code-cell"><code>import sys
+from collections import deque
+import numpy as np</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>using System;
+using System.Collections.Generic;
+using System.IO;</code></pre></td>
+                        <td class="neutral-cell"><pre class="code-cell"><code>import fs from 'fs';
+import { readFileSync } from 'fs';</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>use std::io::{self, BufRead};
+use std::collections::{HashMap, VecDeque};</code></pre></td>
+                    </tr>
+
+                    <!-- Row 13: Entry Point -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">Program Entry Point<br>(main)</td>
+                        <td class="green-cell"><pre class="code-cell"><code>def main():
+    # code here
+
+if __name__ == "__main__":
+    main()</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>// Top-level statements (C# 10+)
+Console.WriteLine("Hello");
+
+// or classic
+static void Main(string[] args) { }</code></pre></td>
+                        <td class="neutral-cell"><pre class="code-cell"><code>function main() {
+    // code
+}
+main();</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>fn main() {
+    // code here
+}</code></pre></td>
+                    </tr>
+
+                    <!-- Row 14: Reading Input -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">Reading Input<br>(stdin or file)</td>
+                        <td class="green-cell"><pre class="code-cell"><code>import sys
+data = sys.stdin.read().split()
+# or file:
+with open("input.txt") as f:
+    data = f.read().split()</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>using System;
+string line = Console.ReadLine();
+// file:
+string text = File.ReadAllText("input.txt");</code></pre></td>
+                        <td class="neutral-cell"><pre class="code-cell"><code>import * as fs from 'fs';
+const input = fs.readFileSync(0, 'utf8');
+// or process.stdin</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>use std::io::{self, BufRead};
+let stdin = io::stdin();
+let mut lines = stdin.lock().lines();
+// file: std::fs::read_to_string("input.txt")</code></pre></td>
+                    </tr>
+
+                    <!-- Row 15: String Building -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">Efficient String<br>Building</td>
+                        <td class="green-cell"><pre class="code-cell"><code>parts = []
+parts.append("hello")
+result = "".join(parts)</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>StringBuilder sb = new();
+sb.Append("hello");
+string result = sb.ToString();</code></pre></td>
+                        <td class="neutral-cell"><pre class="code-cell"><code>let parts: string[] = [];
+parts.push("hello");
+parts.join("")</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>let mut s = String::new();
+s.push_str("hello");
+let result = s;</code></pre></td>
+                    </tr>
+
+                    <!-- Row 16: Lambda / Closures -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">Lambda / Closures</td>
+                        <td class="green-cell"><pre class="code-cell"><code>add = lambda a, b: a + b
+# or
+def make_adder(x):
+    return lambda y: x + y</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>Func&lt;int,int,int&gt; add = (a,b) =&gt; a + b;</code></pre></td>
+                        <td class="neutral-cell"><pre class="code-cell"><code>const add = (a: number, b: number) =&gt; a + b;</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>let add = |a: i32, b: i32| a + b;</code></pre></td>
+                    </tr>
+
+                    <!-- Row 17: Generics -->
+                    <tr>
+                        <td class="topic-cell px-6 font-semibold align-middle">Generics</td>
+                        <td class="green-cell"><pre class="code-cell"><code>from typing import TypeVar, Generic
+T = TypeVar('T')
+class Box(Generic[T]): ...</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>public class Box&lt;T&gt; {
+    public T Value { get; set; }
+}</code></pre></td>
+                        <td class="neutral-cell"><pre class="code-cell"><code>class Box&lt;T&gt; {
+    value: T;
+}</code></pre></td>
+                        <td class="red-cell"><pre class="code-cell"><code>struct Box&lt;T&gt; {
+    value: T,
+}</code></pre></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="mt-4 text-xs text-slate-500 flex items-center gap-x-2">
+            <i class="fa-solid fa-info-circle"></i>
+            <span>Green = similar to Python / concise &amp; flexible. Red = more explicit, verbose or different paradigm. Purple = modern gradual typing (TS).</span>
+        </div>
+    </div>
+
+    <!-- 2. COMMON LEETCODE INPUT PATTERNS (Repetitive Boilerplate) -->
+    <div id="input-patterns" class="max-w-screen-xl mx-auto px-6 pb-16">
+        <div class="mb-6">
+            <h2 class="font-display text-4xl font-semibold tracking-tight">2. Common LeetCode Input Patterns</h2>
+            <p class="text-slate-400 mt-1">These repetitive input reading snippets are used in 80%+ of problems. Use the language toggles above to filter. Copy-paste ready for blank file.</p>
+        </div>
+
+        <div id="input-patterns-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Python Card -->
+            <div data-lang-card="python" class="lang-card bg-slate-900 border border-emerald-800/60 rounded-3xl p-5">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <i class="fa-brands fa-python text-emerald-400 text-2xl"></i>
+                    <div>
+                        <div class="font-semibold">Python</div>
+                        <div class="text-[10px] text-emerald-400/70">Most common patterns</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 text-xs">
+                    <div>
+                        <div class="font-mono text-emerald-400 mb-1">1. Read single int</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>n = int(input())</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-emerald-400 mb-1">2. Read array (n + line)</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>n = int(input())
+arr = list(map(int, input().split()))</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-emerald-400 mb-1">3. Read matrix</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>n, m = map(int, input().split())
+matrix = [list(map(int, input().split())) for _ in range(n)]</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-emerald-400 mb-1">4. Read until EOF / multiple tests</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>import sys
+data = sys.stdin.read().strip().split()
+# or line by line
+for line in sys.stdin:
+    ...</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-emerald-400 mb-1">5. Read from file (local test)</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>with open("input.txt") as f:
+    data = f.read().split()</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- C# Card -->
+            <div data-lang-card="csharp" class="lang-card bg-slate-900 border border-purple-800/60 rounded-3xl p-5">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <i class="fa-brands fa-microsoft text-purple-400 text-2xl"></i>
+                    <div>
+                        <div class="font-semibold">C#</div>
+                        <div class="text-[10px] text-purple-400/70">Most common patterns</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 text-xs">
+                    <div>
+                        <div class="font-mono text-purple-400 mb-1">1. Read single int</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>int n = int.Parse(Console.ReadLine());</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-purple-400 mb-1">2. Read array (n + line)</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>int n = int.Parse(Console.ReadLine());
+int[] arr = Console.ReadLine().Split().Select(int.Parse).ToArray();</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-purple-400 mb-1">3. Read matrix</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>var line = Console.ReadLine().Split();
+int n = int.Parse(line[0]), m = int.Parse(line[1]);
+int[,] mat = new int[n, m];
+for(int i=0; i&lt;n; i++) {
+    var row = Console.ReadLine().Split().Select(int.Parse).ToArray();
+    for(int j=0; j&lt;m; j++) mat[i,j] = row[j];
+}</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-purple-400 mb-1">4. Read until EOF</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>string line;
+while ((line = Console.ReadLine()) != null) { ... }</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-purple-400 mb-1">5. Read from file</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>string[] data = File.ReadAllLines("input.txt");</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TypeScript Card -->
+            <div data-lang-card="typescript" class="lang-card bg-slate-900 border border-sky-800/60 rounded-3xl p-5">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <i class="fa-brands fa-js text-sky-400 text-2xl"></i>
+                    <div>
+                        <div class="font-semibold">TypeScript / Node</div>
+                        <div class="text-[10px] text-sky-400/70">Most common patterns</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 text-xs">
+                    <div>
+                        <div class="font-mono text-sky-400 mb-1">1. Read single int</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>const n: number = parseInt(readline());</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-sky-400 mb-1">2. Read array (n + line)</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>const n = parseInt(readline());
+const arr = readline().split(' ').map(Number);</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-sky-400 mb-1">3. Read matrix</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>const [n, m] = readline().split(' ').map(Number);
+const matrix: number[][] = [];
+for(let i = 0; i &lt; n; i++) {
+    matrix.push(readline().split(' ').map(Number));
+}</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-sky-400 mb-1">4. Read until EOF (Node)</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>import * as fs from 'fs';
+const input = fs.readFileSync(0, 'utf8').trim().split(/\s+/);</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-sky-400 mb-1">5. Read from file</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>import * as fs from 'fs';
+const data = fs.readFileSync('input.txt', 'utf8');</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rust Card -->
+            <div data-lang-card="rust" class="lang-card bg-slate-900 border border-orange-800/60 rounded-3xl p-5">
+                <div class="flex items-center gap-x-3 mb-4">
+                    <i class="fa-brands fa-rust text-orange-400 text-2xl"></i>
+                    <div>
+                        <div class="font-semibold">Rust</div>
+                        <div class="text-[10px] text-orange-400/70">Most common patterns</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 text-xs">
+                    <div>
+                        <div class="font-mono text-orange-400 mb-1">1. Read single int</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>let mut input = String::new();
+std::io::stdin().read_line(&amp;mut input).unwrap();
+let n: i32 = input.trim().parse().unwrap();</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-orange-400 mb-1">2. Read array (n + line)</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>let mut s = String::new();
+std::io::stdin().read_line(&amp;mut s).unwrap();
+let n: usize = s.trim().parse().unwrap();
+let arr: Vec&lt;i32&gt; = std::io::stdin()
+    .lock().lines().next().unwrap().unwrap()
+    .split_whitespace().map(|x| x.parse().unwrap()).collect();</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-orange-400 mb-1">3. Read matrix</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>// Similar: read n, m then loop n times reading lines</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-orange-400 mb-1">4. Read all input at once (recommended)</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>use std::io::{self, BufRead};
+let stdin = io::stdin();
+let mut lines = stdin.lock().lines();
+let mut nums: Vec&lt;i32&gt; = lines.next().unwrap().unwrap()
+    .split_whitespace().map(|x| x.parse().unwrap()).collect();</code></pre>
+                    </div>
+                    <div>
+                        <div class="font-mono text-orange-400 mb-1">5. Read from file</div>
+                        <pre class="bg-slate-950 p-2 rounded-xl text-[10px] overflow-x-auto"><code>let content = std::fs::read_to_string("input.txt").unwrap();</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4 text-xs text-center text-slate-500">These patterns + the syntax table above give you everything needed to start any template from a blank file.</div>
+    </div>
+
+    <!-- HOW TO START FROM BLANK FILE -->
+    <div id="how-to-start" class="max-w-screen-xl mx-auto px-6 pb-16">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+            <h2 class="font-display text-3xl font-semibold tracking-tight mb-4">How to Write Any Template from a Blank File</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h4 class="font-semibold text-emerald-400 mb-3 flex items-center gap-x-2">
+                        <i class="fa-solid fa-file-code"></i> 
+                        <span>Universal Steps (All Languages)</span>
+                    </h4>
+                    <ol class="list-decimal list-inside space-y-2 text-sm text-slate-300">
+                        <li>Create a new empty file (<code>main.py</code>, <code>Program.cs</code>, <code>solution.ts</code>, <code>main.rs</code>)</li>
+                        <li>Add necessary <strong>imports / using / mod</strong> statements for collections, I/O, etc.</li>
+                        <li>Define the <strong>main entry point</strong> (if __name__, static void Main, fn main, or top-level code)</li>
+                        <li>Read input (stdin or file) and parse into data structures (arrays, graphs, etc.)</li>
+                        <li>Implement custom node types when needed (ListNode, TreeNode, TrieNode, UnionFind)</li>
+                        <li>Write the core algorithm using the template pattern</li>
+                        <li>Output the answer (print / Console.WriteLine / println!)</li>
+                    </ol>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-emerald-400 mb-3 flex items-center gap-x-2">
+                        <i class="fa-solid fa-key"></i> 
+                        <span>Key Techniques You Must Know</span>
+                    </h4>
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <span class="px-3 py-1 bg-slate-800 rounded-2xl">Arrays / Vectors / Slices</span>
+                        <span class="px-3 py-1 bg-slate-800 rounded-2xl">HashMap / Dict / HashSet</span>
+                        <span class="px-3 py-1 bg-slate-800 rounded-2xl">Stack / Queue / Deque</span>
+                        <span class="px-3 py-1 bg-slate-800 rounded-2xl">Priority Queue / Heap</span>
+                        <span class="px-3 py-1 bg-slate-800 rounded-2xl">Recursion + Memoization</span>
+                        <span class="px-3 py-1 bg-slate-800 rounded-2xl">Iterative DP (bottom-up)</span>
+                        <span class="px-3 py-1 bg-slate-800 rounded-2xl">Two pointers / Sliding window</span>
+                        <span class="px-3 py-1 bg-slate-800 rounded-2xl">Binary search variants</span>
+                        <span class="px-3 py-1 bg-slate-800 rounded-2xl">Backtracking (add/remove)</span>
+                        <span class="px-3 py-1 bg-slate-800 rounded-2xl">Graph traversal (DFS/BFS)</span>
+                        <span class="px-3 py-1 bg-slate-800 rounded-2xl">Union-Find (path compression)</span>
+                        <span class="px-3 py-1 bg-slate-800 rounded-2xl">Trie (prefix tree)</span>
+                        <span class="px-3 py-1 bg-slate-800 rounded-2xl">Dijkstra / shortest path</span>
+                        <span class="px-3 py-1 bg-slate-800 rounded-2xl">StringBuilder / efficient concat</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DSA TEMPLATES SECTION -->
+    <div id="dsa-templates" class="max-w-screen-xl mx-auto px-6 pb-20">
+        <div class="flex items-end justify-between mb-6">
+            <div>
+                <h2 class="font-display text-4xl font-semibold tracking-tight">3. All Code Templates</h2>
+                <p class="text-slate-400">Every template from the course. Use <strong>Section 2 (Common Input Patterns)</strong> + the syntax table above for all repetitive boilerplate (reading arrays, matrices, from file, EOF, etc.).</p>
+            </div>
+            <div class="text-xs px-4 py-2 bg-slate-900 rounded-2xl border border-slate-700 text-slate-400">
+                <i class="fa-solid fa-info mr-1"></i> Click any template to expand
+            </div>
+        </div>
+
+        <!-- Template 1 -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-emerald-400"><i class="fa-solid fa-arrows-left-right fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Two pointers: one input, opposite ends</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <p class="text-slate-400 mb-4">Classic pattern for problems like valid palindrome, container with most water, two sum II (sorted).</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">REQUIRED TECHNIQUES</div>
+                        <ul class="text-slate-300 space-y-1 text-sm">
+                            <li>• Arrays / Vectors with index access</li>
+                            <li>• Two integer pointers (left = 0, right = n-1)</li>
+                            <li>• While loop with left &lt; right condition</li>
+                            <li>• Conditional move: left++ or right-- or both</li>
+                            <li>• Return indices or computed result</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">FROM BLANK FILE NOTES</div>
+                        <ul class="text-slate-300 space-y-1 text-sm">
+                            <li>• Use <span class="font-mono text-xs bg-slate-800 px-1.5 py-0.5 rounded">len(arr)</span> / <span class="font-mono text-xs bg-slate-800 px-1.5 py-0.5 rounded">arr.len()</span> / <span class="font-mono text-xs bg-slate-800 px-1.5 py-0.5 rounded">arr.Length</span></li>
+                            <li>• Python/TS: very straightforward</li>
+                            <li>• Rust: indices are <span class="font-mono">usize</span>, careful with borrowing</li>
+                            <li>• C#: use <span class="font-mono text-xs">int[]</span> or <span class="font-mono text-xs">List&lt;int&gt;</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+        <!-- Template 2 -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-emerald-400"><i class="fa-solid fa-arrows-left-right fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Two pointers: two inputs, advanced both</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <p class="text-slate-400 mb-4">Used when you have two separate sorted arrays or linked lists and need to merge or compare them.</p>
+                <div>
+                    <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">REQUIRED TECHNIQUES</div>
+                    <ul class="text-slate-300 space-y-1 text-sm columns-2">
+                        <li>• Two separate pointers (i=0, j=0)</li>
+                        <li>• While i &lt; len(A) and j &lt; len(B)</li>
+                        <li>• Compare A[i] and B[j], advance the smaller one</li>
+                        <li>• Handle remaining elements after one list ends</li>
+                        <li>• Often used in merge sorted arrays / lists</li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <!-- Template 3 -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-sky-400"><i class="fa-solid fa-window-maximize fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Sliding window</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <p class="text-slate-400 mb-4">Fixed or variable size window over array/string. Classic for min window substring, longest substring without repeating chars, max sum subarray of size k.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">REQUIRED TECHNIQUES</div>
+                        <ul class="text-slate-300 space-y-1 text-sm">
+                            <li>• Left and right pointers (window [left, right])</li>
+                            <li>• Expand right pointer (add element)</li>
+                            <li>• Shrink left pointer when condition violated</li>
+                            <li>• Track window state (hashmap count, sum, set)</li>
+                            <li>• Update answer at each valid window</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">LANGUAGE TIPS</div>
+                        <ul class="text-slate-300 space-y-1 text-sm">
+                            <li>• Python: use <span class="font-mono text-xs">collections.Counter</span> or dict</li>
+                            <li>• Rust: <span class="font-mono text-xs">HashMap</span> + careful mutable borrow</li>
+                            <li>• C#: <span class="font-mono text-xs">Dictionary&lt;char,int&gt;</span></li>
+                            <li>• All: O(n) time with single pass</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+        <!-- Template 4 -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-sky-400"><i class="fa-solid fa-calculator fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Build a prefix sum</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <p class="text-slate-400 mb-3">Precompute cumulative sums so range sum queries become O(1).</p>
+                <div>
+                    <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">REQUIRED TECHNIQUES</div>
+                    <ul class="text-slate-300 space-y-1 text-sm">
+                        <li>• Create new array <span class="font-mono">prefix[0] = 0</span>, <span class="font-mono">prefix[i] = prefix[i-1] + arr[i-1]</span></li>
+                        <li>• Range sum = prefix[right+1] - prefix[left]</li>
+                        <li>• Handle 0-based vs 1-based indexing carefully</li>
+                        <li>• Often combined with two pointers or sliding window</li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <!-- Template 5 -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-sky-400"><i class="fa-solid fa-font fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Efficient string building</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <p class="text-slate-400 mb-3">Never concatenate strings in a loop with <code>+</code> in Python/C#. Use StringBuilder / join / String::new + push_str.</p>
+                <div>
+                    <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">REQUIRED TECHNIQUES</div>
+                    <ul class="text-slate-300 space-y-1 text-sm">
+                        <li>• Python: <span class="font-mono">''.join(list_of_strings)</span></li>
+                        <li>• C#: <span class="font-mono">StringBuilder</span></li>
+                        <li>• TypeScript: array + <span class="font-mono">.join('')</span></li>
+                        <li>• Rust: <span class="font-mono">String::new()</span> + <span class="font-mono">push_str()</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <!-- Template 6 -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-violet-400"><i class="fa-solid fa-link fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Linked list: fast and slow pointer</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <p class="text-slate-400 mb-3">Floyd's cycle detection, find middle of linked list, etc.</p>
+                <div>
+                    <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">REQUIRED TECHNIQUES</div>
+                    <ul class="text-slate-300 space-y-1 text-sm">
+                        <li>• Define <span class="font-mono">ListNode</span> class/struct with <span class="font-mono">val</span> and <span class="font-mono">next</span></li>
+                        <li>• Two pointers: slow moves 1 step, fast moves 2 steps</li>
+                        <li>• While fast and fast.next exist</li>
+                        <li>• Cycle detection when fast == slow</li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <!-- Template 7 -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-violet-400"><i class="fa-solid fa-link fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Reversing a linked list</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <p class="text-slate-400 mb-3">Iterative or recursive reversal. Very common interview question.</p>
+                <div>
+                    <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">REQUIRED TECHNIQUES</div>
+                    <ul class="text-slate-300 space-y-1 text-sm">
+                        <li>• Iterative: three pointers (prev, curr, next)</li>
+                        <li>• Recursive: reverse rest then fix pointers</li>
+                        <li>• Dummy node often helps</li>
+                        <li>• Update head at the end</li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <!-- Template 8 -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-sky-400"><i class="fa-solid fa-chart-bar fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Find number of subarrays that fit an exact criteria</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <p class="text-slate-400 mb-3">Often solved with prefix sum + hashmap (count of prefix sums seen so far).</p>
+                <div>
+                    <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">REQUIRED TECHNIQUES</div>
+                    <ul class="text-slate-300 space-y-1 text-sm">
+                        <li>• Prefix sum array or running sum</li>
+                        <li>• HashMap&lt;sum, count&gt; to store frequency of prefix sums</li>
+                        <li>• For each index, check if (current_sum - k) exists in map</li>
+                        <li>• Update answer and map in one pass</li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <!-- Template 9 -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-amber-400"><i class="fa-solid fa-layer-group fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Monotonic increasing stack</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <p class="text-slate-400 mb-3">Used for next greater element, daily temperatures, remove duplicate letters, etc.</p>
+                <div>
+                    <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">REQUIRED TECHNIQUES</div>
+                    <ul class="text-slate-300 space-y-1 text-sm">
+                        <li>• Stack (vector / deque / list)</li>
+                        <li>• While stack not empty and top &lt; current → pop</li>
+                        <li>• Push current index/value</li>
+                        <li>• Often store indices, not values</li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <!-- Template 10-12: Binary Tree -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-violet-400"><i class="fa-solid fa-tree fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Binary tree: DFS (recursive) • DFS (iterative) • BFS</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                    <div>
+                        <div class="font-semibold text-emerald-400 mb-1">DFS Recursive</div>
+                        <ul class="text-slate-300 text-xs space-y-0.5">
+                            <li>• Define TreeNode (val, left, right)</li>
+                            <li>• Base case: if node is None/null</li>
+                            <li>• Visit node → recurse left → recurse right</li>
+                            <li>• Return value or collect in list</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-emerald-400 mb-1">DFS Iterative</div>
+                        <ul class="text-slate-300 text-xs space-y-0.5">
+                            <li>• Use explicit Stack</li>
+                            <li>• Push root, while stack not empty pop &amp; visit</li>
+                            <li>• Push right then left (for pre-order)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-emerald-400 mb-1">BFS</div>
+                        <ul class="text-slate-300 text-xs space-y-0.5">
+                            <li>• Use Queue (deque)</li>
+                            <li>• Level order traversal</li>
+                            <li>• Often track level size for level-by-level processing</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4 text-xs text-amber-400">All three require a TreeNode class/struct. Rust uses Option&lt;Box&lt;TreeNode&gt;&gt; or Rc&lt;RefCell&gt; for mutability.</div>
+            </div>
+        </details>
+
+        <!-- Graph templates -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-violet-400"><i class="fa-solid fa-project-diagram fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Graph: DFS (recursive/iterative) • BFS</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">REQUIRED TECHNIQUES</div>
+                        <ul class="text-slate-300 space-y-1 text-sm">
+                            <li>• Represent graph as adj list: <span class="font-mono text-xs">Vec&lt;Vec&lt;i32&gt;&gt;</span> / <span class="font-mono text-xs">dict[list]</span> / <span class="font-mono text-xs">Dictionary&lt;int,List&lt;int&gt;&gt;</span></li>
+                            <li>• Visited HashSet to prevent revisiting</li>
+                            <li>• DFS: recursion or explicit stack</li>
+                            <li>• BFS: queue + level order</li>
+                        </ul>
+                    </div>
+                    <div class="text-xs text-slate-400">
+                        <strong class="text-emerald-400">From blank file:</strong> You must know how to build the adj list from edges input. In Rust use <span class="font-mono">vec![vec![]]</span> with proper sizing.
+                    </div>
+                </div>
+            </div>
+        </details>
+
+        <!-- Heap / Top K -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-amber-400"><i class="fa-solid fa-layer-group fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Find top k elements with heap</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <p class="text-slate-400 mb-3">Use min-heap of size k (or max-heap) to keep track of top k largest/smallest elements in O(n log k).</p>
+                <div>
+                    <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">REQUIRED TECHNIQUES</div>
+                    <ul class="text-slate-300 space-y-1 text-sm">
+                        <li>• Priority Queue / Heap data structure</li>
+                        <li>• Python: <span class="font-mono">heapq</span> (min-heap by default, use negative for max)</li>
+                        <li>• C#: <span class="font-mono">PriorityQueue&lt;TElement, TPriority&gt;</span> (.NET 6+)</li>
+                        <li>• Rust: <span class="font-mono">BinaryHeap</span> (max-heap by default)</li>
+                        <li>• TypeScript: no built-in heap — use array + manual or library</li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <!-- Binary Search family -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-emerald-400"><i class="fa-solid fa-search fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Binary search + variants (leftmost / rightmost / predicate)</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                    <div>
+                        <div class="font-semibold text-emerald-400 mb-2">Core Binary Search</div>
+                        <ul class="text-slate-300 space-y-1 text-xs">
+                            <li>• Sorted array required</li>
+                            <li>• low = 0, high = n-1</li>
+                            <li>• while low &lt;= high</li>
+                            <li>• mid = low + (high - low) / 2   ← prevents overflow</li>
+                            <li>• if arr[mid] == target → found</li>
+                            <li>• else if arr[mid] &lt; target → low = mid + 1</li>
+                            <li>• else high = mid - 1</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-emerald-400 mb-2">Leftmost / Rightmost insertion point</div>
+                        <ul class="text-slate-300 space-y-1 text-xs">
+                            <li>• When duplicates exist</li>
+                            <li>• Leftmost: move high = mid when equal</li>
+                            <li>• Rightmost: move low = mid + 1 when equal</li>
+                            <li>• "Binary search for an answer": use predicate function (e.g. can I achieve X with this mid?)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+        <!-- Backtracking -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-pink-400"><i class="fa-solid fa-project-diagram fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Backtracking</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <p class="text-slate-400 mb-3">Used for permutations, combinations, subsets, N-Queens, Sudoku solver, word search, etc.</p>
+                <div>
+                    <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">REQUIRED TECHNIQUES</div>
+                    <ul class="text-slate-300 space-y-1 text-sm">
+                        <li>• Recursive function with current path/state</li>
+                        <li>• For loop over possible choices at current position</li>
+                        <li>• Add choice → recurse → remove choice (backtrack)</li>
+                        <li>• Base case when solution is complete or invalid</li>
+                        <li>• Often use a "used" boolean array or set</li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <!-- DP Top-down & Bottom-up -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-pink-400"><i class="fa-solid fa-memory fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Dynamic Programming: Top-down (memoization) &amp; Bottom-up (tabulation)</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="font-semibold text-emerald-400 mb-2">Top-down (Memoization)</div>
+                        <ul class="text-slate-300 space-y-1 text-sm text-xs">
+                            <li>• Write recursive solution first</li>
+                            <li>• Add memo dictionary / array</li>
+                            <li>• Check if state already computed before recursing</li>
+                            <li>• Python: <span class="font-mono">@cache</span> or <span class="font-mono">lru_cache</span></li>
+                            <li>• Rust: use <span class="font-mono">HashMap</span> or array</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-emerald-400 mb-2">Bottom-up (Tabulation)</div>
+                        <ul class="text-slate-300 space-y-1 text-sm text-xs">
+                            <li>• Identify base cases (dp[0], dp[1] ...)</li>
+                            <li>• Build 1D or 2D dp table iteratively</li>
+                            <li>• dp[i] = f(dp[i-1], dp[i-2] ...) from smaller subproblems</li>
+                            <li>• Final answer usually dp[n] or dp[n][m]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </details>
+
+        <!-- Trie -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-amber-400"><i class="fa-solid fa-sitemap fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Build a trie (prefix tree)</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <p class="text-slate-400 mb-3">Used for word search, autocomplete, replace words, etc.</p>
+                <div>
+                    <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">REQUIRED TECHNIQUES</div>
+                    <ul class="text-slate-300 space-y-1 text-sm">
+                        <li>• Define TrieNode with children (HashMap&lt;char, TrieNode&gt; or array[26]) and isEnd bool</li>
+                        <li>• Insert method: traverse/create nodes for each char</li>
+                        <li>• Search / startsWith methods</li>
+                        <li>• In Rust: use <span class="font-mono">Box&lt;TrieNode&gt;</span> or <span class="font-mono">HashMap</span></li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <!-- Dijkstra -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-red-400"><i class="fa-solid fa-route fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Dijkstra's shortest path</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <div>
+                    <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">REQUIRED TECHNIQUES</div>
+                    <ul class="text-slate-300 space-y-1 text-sm">
+                        <li>• Graph as weighted adj list: <span class="font-mono">Vec&lt;Vec&lt;(usize, i32)&gt;&gt;</span></li>
+                        <li>• Priority queue (dist, node) — min-heap</li>
+                        <li>• dist array initialized to infinity (i32::MAX or f64::INFINITY)</li>
+                        <li>• Relax edges: if new_dist &lt; dist[v] → update and push to pq</li>
+                        <li>• Visited set optional (with decrease-key simulation)</li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <!-- Union Find -->
+        <details class="template-card bg-slate-900 border border-slate-800 rounded-3xl mb-3 group">
+            <summary class="px-6 py-4 cursor-pointer flex items-center justify-between hover:bg-slate-800/60 rounded-3xl">
+                <div class="flex items-center gap-x-4">
+                    <span class="text-red-400"><i class="fa-solid fa-object-group fa-fw"></i></span>
+                    <span class="font-semibold text-lg">Union Find (Disjoint Set Union)</span>
+                </div>
+                <span class="text-xs px-3 py-1 bg-emerald-900/60 text-emerald-400 rounded-2xl group-open:rotate-180 transition-transform"><i class="fa-solid fa-chevron-down"></i></span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-sm border-t border-slate-800">
+                <p class="text-slate-400 mb-3">Extremely useful for connected components, redundant connections, Kruskal's MST, etc.</p>
+                <div>
+                    <div class="font-semibold text-emerald-400 mb-2 text-xs tracking-wider">REQUIRED TECHNIQUES</div>
+                    <ul class="text-slate-300 space-y-1 text-sm">
+                        <li>• parent array of size n, rank or size array</li>
+                        <li>• find(x): path compression (recursive or iterative)</li>
+                        <li>• union(x, y): union by rank or size</li>
+                        <li>• isConnected / same component check</li>
+                        <li>• In Rust/C#: implement as struct with methods</li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <div class="mt-8 p-5 bg-slate-900 border border-slate-700 rounded-3xl text-center">
+            <p class="text-sm text-slate-400">These templates cover the vast majority of LeetCode / interview DSA problems. Master the syntax comparison table first, then practice implementing each template from a completely blank file using only the techniques listed above.</p>
+        </div>
+    </div>
+
+    <footer class="border-t border-slate-800 py-8 text-center text-xs text-slate-500">
+        Created for learning • Compare • Practice • Master<br>
+        All syntax examples are minimal and practical for competitive programming / interviews.
+    </footer>
+
+    <script>
+        // ==================== LANGUAGE TOGGLE SYSTEM ====================
+        let selectedLanguages = ['python', 'csharp', 'typescript', 'rust'];
+
+        function updateLanguageButtons() {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                const lang = btn.dataset.lang;
+                if (selectedLanguages.includes(lang)) {
+                    btn.classList.add('active', 'border-2');
+                    btn.style.borderColor = getLangColor(lang);
+                    btn.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.15)';
+                } else {
+                    btn.classList.remove('active');
+                    btn.style.borderColor = '#334155';
+                    btn.style.boxShadow = 'none';
+                }
+            });
+        }
+
+        function getLangColor(lang) {
+            if (lang === 'python') return '#10b981';
+            if (lang === 'csharp') return '#a855f7';
+            if (lang === 'typescript') return '#38bdf8';
+            if (lang === 'rust') return '#f97316';
+            return '#64748b';
+        }
+
+        function toggleLanguage(lang, buttonElement) {
+            if (selectedLanguages.includes(lang)) {
+                // Deselect (but keep at least one)
+                if (selectedLanguages.length > 1) {
+                    selectedLanguages = selectedLanguages.filter(l => l !== lang);
+                }
+            } else {
+                selectedLanguages.push(lang);
+            }
+            
+            updateLanguageButtons();
+            filterTableColumns();
+            filterInputPatternCards();
+            
+            // Optional: update badge count
+            const badge = document.querySelector('.px-3.py-1\\.5.bg-slate-800');
+            if (badge) badge.innerHTML = `<div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div><span class="text-emerald-400 font-medium">${selectedLanguages.length} Languages</span>`;
+        }
+
+        function filterTableColumns() {
+            const table = document.querySelector('.syntax-table');
+            if (!table) return;
+
+            const allLangs = ['python', 'csharp', 'typescript', 'rust'];
+            
+            // Get header row
+            const headerRow = table.querySelector('thead tr');
+            if (!headerRow) return;
+
+            // Map lang to column index
+            const langToIndex = {};
+            headerRow.querySelectorAll('th[data-lang]').forEach((th, idx) => {
+                // idx + 1 because first column is Topic (index 0)
+                langToIndex[th.dataset.lang] = th.cellIndex;
+            });
+
+            // Hide/show header columns
+            headerRow.querySelectorAll('th[data-lang]').forEach(th => {
+                const lang = th.dataset.lang;
+                th.style.display = selectedLanguages.includes(lang) ? '' : 'none';
+            });
+
+            // Hide/show body cells by column index
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                allLangs.forEach(lang => {
+                    const colIndex = langToIndex[lang];
+                    if (colIndex !== undefined && cells[colIndex]) {
+                        cells[colIndex].style.display = selectedLanguages.includes(lang) ? '' : 'none';
+                    }
+                });
+            });
+        }
+
+        function filterInputPatternCards() {
+            document.querySelectorAll('#input-patterns-grid .lang-card').forEach(card => {
+                const lang = card.dataset.langCard;
+                card.style.display = selectedLanguages.includes(lang) ? '' : 'none';
+            });
+        }
+
+        function initializeLanguageSystem() {
+            // Set initial selected
+            selectedLanguages = ['python', 'csharp', 'typescript', 'rust'];
+            
+            // Make sure all buttons start active
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.add('active');
+                const lang = btn.dataset.lang;
+                btn.style.borderColor = getLangColor(lang);
+                btn.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.15)';
+            });
+
+            // Initial filter (show all)
+            setTimeout(() => {
+                filterTableColumns();
+                filterInputPatternCards();
+            }, 50);
+
+            // Keyboard support: press 1-4 to toggle languages
+            document.addEventListener('keydown', function(e) {
+                if (['1','2','3','4'].includes(e.key) && document.activeElement.tagName === 'BODY') {
+                    e.preventDefault();
+                    const order = ['python', 'csharp', 'typescript', 'rust'];
+                    const idx = parseInt(e.key) - 1;
+                    const lang = order[idx];
+                    const btn = document.querySelector(`.lang-btn[data-lang="${lang}"]`);
+                    if (btn) toggleLanguage(lang, btn);
+                }
+            });
+
+            console.log('%c[SyntaxLab] Language toggle system initialized', 'color:#22c55e');
+        }
+
+        // ==================== EXISTING BOOT ====================
+        function initializeTailwind() {
+            document.documentElement.style.setProperty('--accent', '#22c55e');
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '/' && document.activeElement.tagName === 'BODY') {
+                e.preventDefault();
+                const firstDetails = document.querySelector('details');
+                if (firstDetails) firstDetails.open = !firstDetails.open;
+            }
+        });
+
+        window.onload = function() {
+            initializeTailwind();
+            initializeLanguageSystem();
+            console.log('%c[SyntaxLab] Full page ready with dynamic language filtering', 'color:#64748b');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ */
+/*  SyntaxLab design tokens — warm "cream / paper" reading theme      */
+/*  Tuned for long study sessions: high-contrast ink on soft paper,   */
+/*  legible typography, calm warm accents.                            */
+/* ------------------------------------------------------------------ */
+@theme {
+  /* Typography — reading-first */
+  --font-sans: 'Atkinson Hyperlegible', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Space Grotesk', 'Atkinson Hyperlegible', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Paper surfaces (warm cream) */
+  --color-paper: #f5efe1; /* page background */
+  --color-paper-2: #efe7d4; /* subtle banded background */
+  --color-surface: #fdfaf2; /* cards / panels */
+  --color-surface-2: #f9f3e6; /* nested / hover */
+
+  /* Ink (high contrast on paper — body ~11:1) */
+  --color-ink: #22201b;
+  --color-ink-soft: #4a4438;
+  --color-ink-faint: #6f6656;
+
+  /* Warm borders */
+  --color-line: #e3d8c0;
+  --color-line-strong: #d3c4a5;
+
+  /* Language accents (AA+ on cream) */
+  --color-py: #10794b; /* Python  — green  */
+  --color-cs: #7b3ff2; /* C#      — purple */
+  --color-ts: #1a6fb0; /* TypeScript — blue */
+  --color-rs: #c04a12; /* Rust    — orange */
+
+  /* Legend / row tones */
+  --color-good: #157f4e;
+  --color-bad: #c23b2b;
+  --color-neutral: #7c3aed;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                              */
+/* ------------------------------------------------------------------ */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* offset for the sticky navbar */
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.65;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Comparison table                                                 */
+/* ------------------------------------------------------------------ */
+.syntax-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.syntax-table td,
+.syntax-table th {
+  padding: 12px 14px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.topic-cell {
+  font-weight: 700;
+  color: var(--color-ink);
+  background-color: var(--color-surface-2);
+  min-width: 150px;
+  border-right: 1px solid var(--color-line);
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+
+/* Row tone accents (soft tints that stay comfortable on cream) */
+.tone-good {
+  background-color: #e6f4ea;
+  border-left: 4px solid var(--color-good);
+}
+.tone-bad {
+  background-color: #fbe7e3;
+  border-left: 4px solid var(--color-bad);
+}
+.tone-neutral {
+  background-color: #efe6fb;
+  border-left: 4px solid var(--color-neutral);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Code cells (Shiki-highlighted, light theme)                      */
+/* ------------------------------------------------------------------ */
+.code-card {
+  background-color: #fbf7ec;
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  overflow-x: auto;
+}
+
+.code-card pre.shiki {
+  margin: 0;
+  background: transparent !important;
+  font-family: var(--font-mono);
+  font-size: 12.75px;
+  line-height: 1.55;
+}
+
+.code-card code {
+  font-family: var(--font-mono);
+}
+
+/* Plain inline-ish code fallback (before Shiki resolves) */
+.code-card .code-plain {
+  margin: 0;
+  white-space: pre;
+  font-family: var(--font-mono);
+  font-size: 12.75px;
+  line-height: 1.55;
+  color: var(--color-ink-soft);
+}
+
+.kbd {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-line-strong);
+  border-radius: 5px;
+  padding: 1px 6px;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Cards / sections                                                 */
+/* ------------------------------------------------------------------ */
+.section-header {
+  background: linear-gradient(90deg, #2c2013, #3c2c19);
+  color: #fbf3e2;
+}
+
+.template-card {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.template-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 15px -3px rgb(60 40 15 / 0.12),
+    0 4px 6px -4px rgb(60 40 15 / 0.1);
+}
+
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Navbar active anchor */
+.nav-active {
+  border-bottom: 3px solid var(--color-good);
+  font-weight: 600;
+}
