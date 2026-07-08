@@ -5,7 +5,7 @@ const GRADES: { grade: Grade; label: string; key: string; color: string }[] = [
   { grade: 'again', label: 'Again', key: '1', color: '#c23b2b' },
   { grade: 'hard', label: 'Hard', key: '2', color: '#b45309' },
   { grade: 'good', label: 'Good', key: '3', color: '#1a6fb0' },
-  { grade: 'easy', label: 'Easy', key: '4', color: '#10794b' },
+  { grade: 'easy', label: 'Easy', key: '4', color: '#0e7c7b' },
 ]
 
 /**

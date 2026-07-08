@@ -71,7 +71,7 @@ export function Dashboard() {
           label="Mastered cards"
           value={`${stats.mastered}/${stats.total}`}
           icon="fa-solid fa-trophy"
-          accent="#10794b"
+          accent="#0e7c7b"
         />
         <StatCard
           label="Overall mastery"

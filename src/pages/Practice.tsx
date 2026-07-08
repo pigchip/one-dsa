@@ -115,7 +115,7 @@ function DrillFor({ card, onGrade }: { card: Card; onGrade: (g: Grade) => void }
 function EmptyState() {
   return (
     <div className="mx-auto max-w-2xl px-6 py-24 text-center">
-      <span className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-[#e2f2ea] text-3xl text-good">
+      <span className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-[#e1f2f1] text-3xl text-good">
         <i className="fa-solid fa-check" />
       </span>
       <h1 className="font-display text-3xl font-semibold text-ink">All caught up</h1>

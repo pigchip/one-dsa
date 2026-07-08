@@ -1,6 +1,6 @@
 import type { Pattern } from '@/types/study'
 
-const GREEN = '#10794b'
+const GREEN = '#0e7c7b'
 const SKY = '#1a6fb0'
 const VIOLET = '#7b3ff2'
 const AMBER = '#b45309'

@@ -27,13 +27,13 @@
   --color-line-strong: #d3c4a5;
 
   /* Language accents (AA+ on cream) */
-  --color-py: #10794b; /* Python  — green  */
+  --color-py: #0e7c7b; /* Python  — teal (bluish-green) */
   --color-cs: #7b3ff2; /* C#      — purple */
   --color-ts: #1a6fb0; /* TypeScript — blue */
   --color-rs: #c04a12; /* Rust    — orange */
 
   /* Legend / row tones */
-  --color-good: #157f4e;
+  --color-good: #0e7c7b;
   --color-bad: #c23b2b;
   --color-neutral: #7c3aed;
 }
@@ -92,7 +92,7 @@ body {
 
 /* Row tone accents (soft tints that stay comfortable on cream) */
 .tone-good {
-  background-color: #e6f4ea;
+  background-color: #e1f2f1;
   border-left: 4px solid var(--color-good);
 }
 .tone-bad {

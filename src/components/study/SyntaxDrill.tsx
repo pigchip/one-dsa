@@ -59,7 +59,7 @@ export function SyntaxDrill({
                 className="h-full rounded-full transition-all"
                 style={{
                   width: `${pct}%`,
-                  backgroundColor: exact ? '#10794b' : pct >= 60 ? '#1a6fb0' : '#b45309',
+                  backgroundColor: exact ? '#0e7c7b' : pct >= 60 ? '#1a6fb0' : '#b45309',
                 }}
               />
             </div>

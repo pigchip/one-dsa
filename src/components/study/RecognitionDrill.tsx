@@ -73,7 +73,7 @@ export function RecognitionDrill({
           const isPicked = opt.id === picked
           let cls = 'border-line bg-surface hover:bg-surface-2'
           if (answered) {
-            if (isCorrect) cls = 'border-good bg-[#e6f4ea]'
+            if (isCorrect) cls = 'border-good bg-[#e1f2f1]'
             else if (isPicked) cls = 'border-bad bg-[#fbe7e3]'
             else cls = 'border-line bg-surface opacity-60'
           }
