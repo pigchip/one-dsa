@@ -1,14 +1,26 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
 const LINKS = [
   { to: '/', label: 'Dashboard', icon: 'fa-solid fa-gauge-high', end: true },
-  { to: '/practice', label: 'Practice', icon: 'fa-solid fa-dumbbell' },
+  { to: '/roadmap', label: 'Roadmap', icon: 'fa-solid fa-route' },
+  { to: '/practice?mode=typing', label: 'Practice', icon: 'fa-solid fa-dumbbell' },
+  { to: '/practice', label: 'Quiz', icon: 'fa-solid fa-circle-question' },
   { to: '/library', label: 'Library', icon: 'fa-solid fa-book' },
   { to: '/reference', label: 'Reference', icon: 'fa-solid fa-table' },
 ]
 
 /** Sticky top navigation using router NavLinks with active styling. */
 export function Navbar() {
+  const location = useLocation()
+  const isTyping = location.pathname === '/practice' && location.search.includes('mode=typing')
+
+  // The two Practice links share a pathname, so decide active state by query.
+  const linkActive = (to: string, isActive: boolean) => {
+    if (to === '/practice?mode=typing') return isTyping
+    if (to === '/practice') return location.pathname === '/practice' && !isTyping
+    return isActive
+  }
+
   return (
     <nav className="sticky top-0 z-50 border-b border-line bg-surface/85 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3">
@@ -34,7 +46,7 @@ export function Navbar() {
               end={link.end}
               className={({ isActive }) =>
                 `flex shrink-0 items-center gap-x-2 rounded-xl px-3 py-2 text-ink-soft transition-colors hover:bg-surface-2 sm:px-4 ${
-                  isActive ? 'nav-active text-ink' : ''
+                  linkActive(link.to, isActive) ? 'nav-active text-ink' : ''
                 }`
               }
             >

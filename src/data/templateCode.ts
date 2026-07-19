@@ -51,41 +51,43 @@ export const TEMPLATE_CODE: Record<
   'Two pointers: two inputs, advance both': {
     python: `def merge(a, b):
     i = j = 0
-    res = []
+    result = []
     while i < len(a) and j < len(b):
         if a[i] <= b[j]:
-            res.append(a[i]); i += 1
+            result.append(a[i])
+            i += 1
         else:
-            res.append(b[j]); j += 1
-    res.extend(a[i:])
-    res.extend(b[j:])
-    return res`,
+            result.append(b[j])
+            j += 1
+    result.extend(a[i:])
+    result.extend(b[j:])
+    return result`,
     csharp: `List<int> Merge(int[] a, int[] b) {
-    var res = new List<int>();
+    var result = new List<int>();
     int i = 0, j = 0;
     while (i < a.Length && j < b.Length)
-        res.Add(a[i] <= b[j] ? a[i++] : b[j++]);
-    while (i < a.Length) res.Add(a[i++]);
-    while (j < b.Length) res.Add(b[j++]);
-    return res;
+        result.Add(a[i] <= b[j] ? a[i++] : b[j++]);
+    while (i < a.Length) result.Add(a[i++]);
+    while (j < b.Length) result.Add(b[j++]);
+    return result;
 }`,
     typescript: `function merge(a: number[], b: number[]): number[] {
-  const res: number[] = [];
+  const result: number[] = [];
   let i = 0, j = 0;
   while (i < a.length && j < b.length)
-    res.push(a[i] <= b[j] ? a[i++] : b[j++]);
-  return res.concat(a.slice(i), b.slice(j));
+    result.push(a[i] <= b[j] ? a[i++] : b[j++]);
+  return result.concat(a.slice(i), b.slice(j));
 }`,
     rust: `fn merge(a: &[i32], b: &[i32]) -> Vec<i32> {
     let (mut i, mut j) = (0, 0);
-    let mut res = Vec::new();
+    let mut result = Vec::new();
     while i < a.len() && j < b.len() {
-        if a[i] <= b[j] { res.push(a[i]); i += 1; }
-        else { res.push(b[j]); j += 1; }
+        if a[i] <= b[j] { result.push(a[i]); i += 1; }
+        else { result.push(b[j]); j += 1; }
     }
-    res.extend_from_slice(&a[i..]);
-    res.extend_from_slice(&b[j..]);
-    res
+    result.extend_from_slice(&a[i..]);
+    result.extend_from_slice(&b[j..]);
+    result
 }`,
   },
 
@@ -326,45 +328,45 @@ fn subarray_sum(nums: &[i32], k: i32) -> i32 {
 
   'Monotonic increasing stack': {
     python: `def next_greater(nums):
-    res = [-1] * len(nums)
+    result = [-1] * len(nums)
     stack = []  # indices
     for i, x in enumerate(nums):
         while stack and nums[stack[-1]] < x:
-            res[stack.pop()] = x
+            result[stack.pop()] = x
         stack.append(i)
-    return res`,
+    return result`,
     csharp: `int[] NextGreater(int[] nums) {
-    var res = new int[nums.Length];
-    Array.Fill(res, -1);
+    var result = new int[nums.Length];
+    Array.Fill(result, -1);
     var stack = new Stack<int>();
     for (int i = 0; i < nums.Length; i++) {
         while (stack.Count > 0 && nums[stack.Peek()] < nums[i])
-            res[stack.Pop()] = nums[i];
+            result[stack.Pop()] = nums[i];
         stack.Push(i);
     }
-    return res;
+    return result;
 }`,
     typescript: `function nextGreater(nums: number[]): number[] {
-  const res = new Array(nums.length).fill(-1);
+  const result = new Array(nums.length).fill(-1);
   const stack: number[] = [];
   for (let i = 0; i < nums.length; i++) {
     while (stack.length && nums[stack[stack.length - 1]] < nums[i])
-      res[stack.pop()!] = nums[i];
+      result[stack.pop()!] = nums[i];
     stack.push(i);
   }
-  return res;
+  return result;
 }`,
     rust: `fn next_greater(nums: &[i32]) -> Vec<i32> {
-    let mut res = vec![-1; nums.len()];
+    let mut result = vec![-1; nums.len()];
     let mut stack: Vec<usize> = Vec::new();
     for i in 0..nums.len() {
         while let Some(&top) = stack.last() {
-            if nums[top] < nums[i] { res[top] = nums[i]; stack.pop(); }
+            if nums[top] < nums[i] { result[top] = nums[i]; stack.pop(); }
             else { break; }
         }
         stack.push(i);
     }
-    res
+    result
 }`,
   },
 
@@ -380,13 +382,13 @@ from collections import deque
 def bfs(root):
     if not root:
         return []
-    q, res = deque([root]), []
+    q, result = deque([root]), []
     while q:
         node = q.popleft()
-        res.append(node.val)
+        result.append(node.val)
         if node.left: q.append(node.left)
         if node.right: q.append(node.right)
-    return res`,
+    return result`,
     csharp: `void Inorder(TreeNode root, List<int> outList) {
     if (root == null) return;
     Inorder(root.left, outList);
@@ -394,17 +396,17 @@ def bfs(root):
     Inorder(root.right, outList);
 }
 List<int> Bfs(TreeNode root) {
-    var res = new List<int>();
-    if (root == null) return res;
+    var result = new List<int>();
+    if (root == null) return result;
     var q = new Queue<TreeNode>();
     q.Enqueue(root);
     while (q.Count > 0) {
         var node = q.Dequeue();
-        res.Add(node.val);
+        result.Add(node.val);
         if (node.left != null) q.Enqueue(node.left);
         if (node.right != null) q.Enqueue(node.right);
     }
-    return res;
+    return result;
 }`,
     typescript: `function inorder(root: TreeNode | null, out: number[]): void {
   if (!root) return;
@@ -413,16 +415,16 @@ List<int> Bfs(TreeNode root) {
   inorder(root.right, out);
 }
 function bfs(root: TreeNode | null): number[] {
-  const res: number[] = [];
-  if (!root) return res;
+  const result: number[] = [];
+  if (!root) return result;
   const q: TreeNode[] = [root];
   while (q.length) {
     const node = q.shift()!;
-    res.push(node.val);
+    result.push(node.val);
     if (node.left) q.push(node.left);
     if (node.right) q.push(node.right);
   }
-  return res;
+  return result;
 }`,
     rust: `use std::rc::Rc;
 use std::cell::RefCell;
@@ -438,16 +440,16 @@ fn inorder(root: &Tree, out: &mut Vec<i32>) {
     }
 }
 fn bfs(root: Tree) -> Vec<i32> {
-    let mut res = Vec::new();
+    let mut result = Vec::new();
     let mut q = VecDeque::new();
     if let Some(r) = root { q.push_back(r); }
     while let Some(node) = q.pop_front() {
         let n = node.borrow();
-        res.push(n.val);
+        result.push(n.val);
         if let Some(l) = &n.left { q.push_back(l.clone()); }
         if let Some(r) = &n.right { q.push_back(r.clone()); }
     }
-    res
+    result
 }`,
   },
 
@@ -537,9 +539,9 @@ def top_k(nums, k):
         pq.Enqueue(x, x);
         if (pq.Count > k) pq.Dequeue();
     }
-    var res = new List<int>();
-    while (pq.Count > 0) res.Add(pq.Dequeue());
-    return res.ToArray();
+    var result = new List<int>();
+    while (pq.Count > 0) result.Add(pq.Dequeue());
+    return result.ToArray();
 }`,
     typescript: `function topK(nums: number[], k: number): number[] {
   // No built-in heap: sort desc, take k (O(n log n)).
@@ -622,19 +624,19 @@ int Leftmost(int[] arr, int target) {
 
   Backtracking: {
     python: `def subsets(nums):
-    res = []
+    result = []
     def backtrack(start, path):
-        res.append(path[:])
+        result.append(path[:])
         for i in range(start, len(nums)):
             path.append(nums[i])
             backtrack(i + 1, path)
             path.pop()
     backtrack(0, [])
-    return res`,
+    return result`,
     csharp: `IList<IList<int>> Subsets(int[] nums) {
-    var res = new List<IList<int>>();
+    var result = new List<IList<int>>();
     void Backtrack(int start, List<int> path) {
-        res.Add(new List<int>(path));
+        result.Add(new List<int>(path));
         for (int i = start; i < nums.Length; i++) {
             path.Add(nums[i]);
             Backtrack(i + 1, path);
@@ -642,12 +644,12 @@ int Leftmost(int[] arr, int target) {
         }
     }
     Backtrack(0, new List<int>());
-    return res;
+    return result;
 }`,
     typescript: `function subsets(nums: number[]): number[][] {
-  const res: number[][] = [];
+  const result: number[][] = [];
   const backtrack = (start: number, path: number[]) => {
-    res.push([...path]);
+    result.push([...path]);
     for (let i = start; i < nums.length; i++) {
       path.push(nums[i]);
       backtrack(i + 1, path);
@@ -655,21 +657,21 @@ int Leftmost(int[] arr, int target) {
     }
   };
   backtrack(0, []);
-  return res;
+  return result;
 }`,
     rust: `fn subsets(nums: &[i32]) -> Vec<Vec<i32>> {
     fn backtrack(start: usize, nums: &[i32],
-                 path: &mut Vec<i32>, res: &mut Vec<Vec<i32>>) {
-        res.push(path.clone());
+                 path: &mut Vec<i32>, result: &mut Vec<Vec<i32>>) {
+        result.push(path.clone());
         for i in start..nums.len() {
             path.push(nums[i]);
-            backtrack(i + 1, nums, path, res);
+            backtrack(i + 1, nums, path, result);
             path.pop();
         }
     }
-    let mut res = Vec::new();
-    backtrack(0, nums, &mut Vec::new(), &mut res);
-    res
+    let mut result = Vec::new();
+    backtrack(0, nums, &mut Vec::new(), &mut result);
+    result
 }`,
   },
 

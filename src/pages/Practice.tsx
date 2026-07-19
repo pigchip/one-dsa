@@ -4,13 +4,11 @@ import type { Card, DrillKind } from '@/types/study'
 import type { Grade } from '@/lib/srs'
 import { useProgress } from '@/context/useProgress'
 import { buildSession, type SessionOptions } from '@/lib/selectors'
-import { CARD_BY_ID, syntaxCardContent } from '@/data/cards'
+import { CARD_BY_ID } from '@/data/cards'
 import { PATTERN_BY_ID } from '@/data/patterns'
 import { DRILL_KIND_META } from '@/types/study'
-import { CodeDrill } from '@/components/study/CodeDrill'
-import { FillDrill } from '@/components/study/FillDrill'
-import { RecognitionDrill } from '@/components/study/RecognitionDrill'
-import { SyntaxDrill } from '@/components/study/SyntaxDrill'
+import { DrillFor } from '@/components/study/DrillFor'
+import { TypingSession } from '@/components/study/TypingSession'
 
 /** For a pattern-scoped drill, include all its cards in a fixed order. */
 function orderByKind(cards: Card[]): Card[] {
@@ -25,6 +23,7 @@ export function Practice() {
 
   const patternId = params.get('pattern') ?? undefined
   const kind = (params.get('kind') as DrillKind | null) ?? undefined
+  const mode = params.get('mode') ?? undefined
 
   // Build the session ONCE at mount so grading (which mutates state) does not
   // reshuffle the queue mid-session.
@@ -55,6 +54,10 @@ export function Practice() {
     return 'Daily review'
   }, [patternId, kind])
 
+  if (mode === 'typing') {
+    return <TypingSession />
+  }
+
   if (session.length === 0) {
     return (
       <EmptyState />
@@ -82,6 +85,16 @@ export function Practice() {
         </Link>
       </div>
 
+      <div className="mb-6 flex justify-end">
+        <Link
+          to="/practice?mode=typing"
+          className="inline-flex items-center gap-x-2 rounded-xl border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-ink-soft hover:bg-surface-2"
+        >
+          <i className="fa-solid fa-stopwatch text-py" />
+          Typing marathon
+        </Link>
+      </div>
+
       <div className="mb-6 h-2 overflow-hidden rounded-full bg-surface-2">
         <div
           className="h-full rounded-full bg-py transition-all"
@@ -97,19 +110,6 @@ export function Practice() {
       </div>
     </div>
   )
-}
-
-function DrillFor({ card, onGrade }: { card: Card; onGrade: (g: Grade) => void }) {
-  if (card.kind === 'syntax') {
-    const content = syntaxCardContent(card.sourceId)
-    if (!content) return null
-    return <SyntaxDrill topic={content.topic} python={content.python} onGrade={onGrade} />
-  }
-  const pattern = PATTERN_BY_ID[card.sourceId]
-  if (!pattern) return null
-  if (card.kind === 'code') return <CodeDrill pattern={pattern} onGrade={onGrade} />
-  if (card.kind === 'fill') return <FillDrill pattern={pattern} onGrade={onGrade} />
-  return <RecognitionDrill pattern={pattern} onGrade={onGrade} />
 }
 
 function EmptyState() {
@@ -129,6 +129,12 @@ function EmptyState() {
           className="rounded-2xl bg-py px-5 py-2.5 text-sm font-semibold text-white hover:opacity-90"
         >
           Browse the Library
+        </Link>
+        <Link
+          to="/practice?mode=typing"
+          className="rounded-2xl border border-line-strong bg-surface px-5 py-2.5 text-sm font-semibold text-ink hover:bg-surface-2"
+        >
+          Typing marathon
         </Link>
         <Link
           to="/"

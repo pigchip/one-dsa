@@ -1,14 +1,20 @@
 import { useMemo, useState } from 'react'
 import type { Pattern } from '@/types/study'
 import type { Grade } from '@/lib/srs'
-import { isExactMatch, similarity } from '@/lib/normalize'
+import { PATTERNS } from '@/data/patterns'
+import { seeded, shuffle, pickDistractors } from '@/lib/quiz'
 import { CodeBlock } from '@/components/ui/CodeBlock'
 import { GradeBar } from './GradeBar'
 
+interface Option {
+  id: string
+  title: string
+  template: string
+}
+
 /**
- * Blank-file recall: the learner types the whole solution from memory, then
- * reveals the canonical template and self-grades. A similarity meter gives
- * objective feedback on how close the attempt was.
+ * Implementation match: four candidate solutions are shown; the learner drags
+ * the one that correctly solves the prompt into the answer slot, then self-grades.
  */
 export function CodeDrill({
   pattern,
@@ -17,65 +23,97 @@ export function CodeDrill({
   pattern: Pattern
   onGrade: (grade: Grade) => void
 }) {
-  const [attempt, setAttempt] = useState('')
-  const [revealed, setRevealed] = useState(false)
+  const [dropped, setDropped] = useState<Option | null>(null)
+  const [dragOver, setDragOver] = useState(false)
 
-  const score = useMemo(
-    () => (revealed ? similarity(attempt, pattern.template) : 0),
-    [revealed, attempt, pattern.template],
-  )
-  const exact = revealed && isExactMatch(attempt, pattern.template)
-  const pct = Math.round(score * 100)
+  const options = useMemo<Option[]>(() => {
+    const rand = seeded(`code:${pattern.id}`)
+    const correct: Option = {
+      id: pattern.id,
+      title: pattern.title,
+      template: pattern.template,
+    }
+    const pool: Option[] = PATTERNS.map((p) => ({
+      id: p.id,
+      title: p.title,
+      template: p.template,
+    }))
+    const distractors = pickDistractors(pool, correct, (o) => o.id, 3, rand)
+    return shuffle([correct, ...distractors], rand)
+  }, [pattern])
+
+  const answered = dropped !== null
+  const isRight = dropped?.id === pattern.id
+
+  const handleDrop = (id: string) => {
+    if (answered) return
+    setDragOver(false)
+    const opt = options.find((o) => o.id === id)
+    if (opt) setDropped(opt)
+  }
 
   return (
     <div className="space-y-4">
       <div>
         <p className="text-xs font-semibold tracking-wide text-ink-faint uppercase">
-          Type from memory
+          Drag the correct implementation into the slot
         </p>
         <p className="mt-1 font-mono text-sm text-ink">{pattern.prompt}</p>
       </div>
 
-      <textarea
-        value={attempt}
-        onChange={(e) => setAttempt(e.target.value)}
-        spellCheck={false}
-        placeholder="# Write the full Python solution here..."
-        className="h-56 w-full resize-y rounded-2xl border border-line bg-[#fbf7ec] p-4 font-mono text-sm text-ink outline-none focus:border-line-strong"
-      />
+      <div
+        onDragOver={(e) => {
+          if (answered) return
+          e.preventDefault()
+          setDragOver(true)
+        }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={(e) => {
+          e.preventDefault()
+          handleDrop(e.dataTransfer.getData('text/plain'))
+        }}
+        className={`rounded-2xl border-2 border-dashed p-2 transition-colors ${
+          answered
+            ? isRight
+              ? 'border-good bg-[#e1f2f1]'
+              : 'border-bad bg-[#fbe7e3]'
+            : dragOver
+              ? 'border-line-strong bg-surface-2'
+              : 'border-line bg-surface'
+        }`}
+      >
+        {dropped ? (
+          <CodeBlock code={dropped.template} language="python" />
+        ) : (
+          <p className="px-3 py-8 text-center text-sm text-ink-faint">
+            Drop your chosen solution here
+          </p>
+        )}
+      </div>
 
-      {!revealed ? (
-        <button
-          onClick={() => setRevealed(true)}
-          className="w-full rounded-2xl bg-py py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-        >
-          Reveal solution
-        </button>
-      ) : (
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="h-2 flex-1 overflow-hidden rounded-full bg-surface-2">
-              <div
-                className="h-full rounded-full transition-all"
-                style={{
-                  width: `${pct}%`,
-                  backgroundColor: exact ? '#0e7c7b' : pct >= 60 ? '#1a6fb0' : '#b45309',
-                }}
-              />
+      {!answered && (
+        <div className="grid gap-2">
+          {options.map((opt) => (
+            <div
+              key={opt.id}
+              draggable
+              onDragStart={(e) => e.dataTransfer.setData('text/plain', opt.id)}
+              className="cursor-grab rounded-2xl border border-line bg-surface p-1 transition-colors hover:border-line-strong active:cursor-grabbing"
+            >
+              <CodeBlock code={opt.template} language="python" />
             </div>
-            <span className="w-28 text-right text-sm font-semibold text-ink">
-              {exact ? 'Exact match' : `${pct}% match`}
-            </span>
-          </div>
+          ))}
+        </div>
+      )}
 
-          <div>
-            <p className="mb-2 text-xs font-semibold tracking-wide text-ink-faint uppercase">
-              Canonical solution
-            </p>
-            <CodeBlock code={pattern.template} language="python" />
-          </div>
-
-          <p className="text-sm text-ink-soft">How well did you recall it?</p>
+      {answered && (
+        <div className="space-y-4">
+          <p className="text-sm text-ink-soft">
+            {isRight
+              ? 'Correct.'
+              : `Not quite - that was ${dropped?.title}. The correct solution:`}
+          </p>
+          {!isRight && <CodeBlock code={pattern.template} language="python" />}
           <GradeBar onGrade={onGrade} />
         </div>
       )}

@@ -6,6 +6,7 @@ import { Library } from '@/pages/Library'
 import { PatternPage } from '@/pages/PatternPage'
 import { Practice } from '@/pages/Practice'
 import { Reference } from '@/pages/Reference'
+import { Roadmap } from '@/pages/Roadmap'
 import { Settings } from '@/pages/Settings'
 import { NotFound } from '@/pages/NotFound'
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/library" element={<Library />} />
           <Route path="/library/:patternId" element={<PatternPage />} />
+          <Route path="/roadmap" element={<Roadmap />} />
           <Route path="/practice" element={<Practice />} />
           <Route path="/reference" element={<Reference />} />
           <Route path="/settings" element={<Settings />} />

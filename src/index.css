@@ -64,6 +64,22 @@ body {
   font-family: var(--font-mono);
 }
 
+/* Render code operators literally (e.g. "<=" not the "≤" ligature). */
+.font-mono,
+.code-card pre.shiki,
+.code-card code,
+.code-card .code-plain,
+.kbd {
+  font-variant-ligatures: none;
+  font-feature-settings: 'liga' 0, 'clig' 0, 'calt' 0;
+}
+
+/* Focus mode: hide global chrome so only the typing box is visible. */
+body.focus-typing nav,
+body.focus-typing footer {
+  display: none;
+}
+
 /* ------------------------------------------------------------------ */
 /*  Comparison table                                                 */
 /* ------------------------------------------------------------------ */

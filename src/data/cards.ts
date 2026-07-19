@@ -64,3 +64,14 @@ export function syntaxCardContent(sourceId: string): {
   if (!row) return null
   return { topic: row.topic, python: row.code.python }
 }
+
+/** Every syntax snippet with a Python answer, for building quiz distractors. */
+export function allSyntaxSnippets(): { topic: string; python: string }[] {
+  const out: { topic: string; python: string }[] = []
+  SYNTAX_CATEGORIES.forEach((cat) => {
+    cat.rows.forEach((row) => {
+      if (row.code.python) out.push({ topic: row.topic, python: row.code.python })
+    })
+  })
+  return out
+}

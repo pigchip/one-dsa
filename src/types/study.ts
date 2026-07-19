@@ -57,6 +57,58 @@ export interface Pattern {
   recognitionCues: string[]
 }
 
+/**
+ * One ordered stage of the Python learning roadmap. A phase weaves together all
+ * five content sections (syntax, input patterns, templates, patterns, drills)
+ * and is designed to build on the knowledge of every phase before it.
+ *
+ * Content is referenced by id/title rather than duplicated, keeping the source
+ * data (`syntaxTable.ts`, `inputPatterns.ts`, `templates.ts`, `patterns.ts`) the
+ * single source of truth.
+ */
+export interface RoadmapPhase {
+  id: string
+  /** 1-based position in the path. */
+  order: number
+  title: string
+  subtitle: string
+  /** Font Awesome icon class. */
+  icon: string
+  /** Accent color hex. */
+  accent: string
+  /** What you can do once this phase is mastered. */
+  goal: string
+  /** `SYNTAX_CATEGORIES` titles to review in this phase. */
+  syntaxTopics: string[]
+  /** Python `INPUT_PATTERNS` snippet labels to internalize. */
+  inputSnippets: string[]
+  /** `TEMPLATES` card titles that frame this phase. */
+  templates: string[]
+  /** `PATTERNS` ids drilled in this phase, in learning order. */
+  patternIds: string[]
+  /** Memorization-critical items to reproduce by hand ("write on paper"). */
+  writeOnPaper: string[]
+  /** Curated problems solvable with this phase's (or earlier) knowledge. */
+  problems: RoadmapProblem[]
+}
+
+/** A well-known interview problem list a problem can belong to. */
+export type ProblemList = 'top150' | 'blind75' | 'neetcode150'
+
+export type ProblemDifficulty = 'Easy' | 'Medium' | 'Hard'
+
+/** One curated practice problem, linked to LeetCode. */
+export interface RoadmapProblem {
+  /** LeetCode problem number. */
+  id: number
+  title: string
+  /** LeetCode url slug: https://leetcode.com/problems/<slug>/ */
+  slug: string
+  difficulty: ProblemDifficulty
+  /** Which curated lists this problem appears in. */
+  lists: ProblemList[]
+}
+
 export type DrillKind = 'code' | 'fill' | 'recognition' | 'syntax'
 
 /** A single reviewable unit tracked by the SRS engine. */

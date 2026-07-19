@@ -2,12 +2,24 @@ import { useMemo, useState } from 'react'
 import type { Pattern } from '@/types/study'
 import type { Grade } from '@/lib/srs'
 import { buildFill, type FillLine } from '@/lib/fill'
-import { normalizeCode } from '@/lib/normalize'
+import { PATTERNS } from '@/data/patterns'
+import { seeded, shuffle, pickDistractors } from '@/lib/quiz'
 import { GradeBar } from './GradeBar'
 
+/** Collect distinct non-trivial logic lines across every template. */
+function linePool(): string[] {
+  const set = new Set<string>()
+  for (const p of PATTERNS) {
+    for (const ln of buildFill(p.template)) {
+      if (ln.blank && ln.content.length > 5) set.add(ln.content)
+    }
+  }
+  return [...set]
+}
+
 /**
- * Fill in the blanks: structural scaffolding stays visible; the learner types
- * the masked logic lines. Checking reveals which lines were correct.
+ * Complete the template: one logic line is blanked as a drop slot; the learner
+ * drags the correct line from four candidates into it, then self-grades.
  */
 export function FillDrill({
   pattern,
@@ -16,83 +28,114 @@ export function FillDrill({
   pattern: Pattern
   onGrade: (grade: Grade) => void
 }) {
-  const lines = useMemo<FillLine[]>(() => buildFill(pattern.template), [pattern.template])
-  const blankIdx = useMemo(
-    () => lines.map((l, i) => (l.blank ? i : -1)).filter((i) => i >= 0),
-    [lines],
-  )
-  const [answers, setAnswers] = useState<Record<number, string>>({})
-  const [checked, setChecked] = useState(false)
+  const [dropped, setDropped] = useState<string | null>(null)
+  const [dragOver, setDragOver] = useState(false)
 
-  const correct = (i: number) =>
-    normalizeCode(answers[i] ?? '') === normalizeCode(lines[i].content)
-  const numCorrect = blankIdx.filter(correct).length
+  const lines = useMemo<FillLine[]>(() => buildFill(pattern.template), [pattern.template])
+
+  const { blankIndex, answer, options } = useMemo(() => {
+    const rand = seeded(`fill:${pattern.id}`)
+    const blanks = lines
+      .map((l, i) => ({ l, i }))
+      .filter((x) => x.l.blank && x.l.content.length > 5)
+    const chosen = blanks.length ? blanks[Math.floor(rand() * blanks.length)] : null
+    const correct = chosen?.l.content ?? ''
+    const distractors = pickDistractors(linePool(), correct, (s) => s, 3, rand)
+    return {
+      blankIndex: chosen?.i ?? -1,
+      answer: correct,
+      options: shuffle([correct, ...distractors], rand),
+    }
+  }, [lines, pattern.id])
+
+  const answered = dropped !== null
+  const isRight = dropped === answer
+
+  const handleDrop = (value: string) => {
+    if (answered) return
+    setDragOver(false)
+    setDropped(value)
+  }
 
   return (
     <div className="space-y-4">
       <div>
         <p className="text-xs font-semibold tracking-wide text-ink-faint uppercase">
-          Complete the {pattern.title} template
+          Drag the missing line into the {pattern.title} template
         </p>
         <p className="mt-1 font-mono text-sm text-ink">{pattern.prompt}</p>
       </div>
 
       <div className="overflow-x-auto rounded-2xl border border-line bg-[#fbf7ec] p-4 font-mono text-sm">
-        {lines.map((line, i) =>
-          line.blank ? (
+        {lines.map((line, i) => {
+          if (i !== blankIndex) {
+            return (
+              <div
+                key={i}
+                style={{ whiteSpace: 'pre', minHeight: line.content ? '1.9rem' : '0.6rem' }}
+                className="text-ink"
+              >
+                {line.text || ' '}
+              </div>
+            )
+          }
+          return (
             <div key={i} className="flex items-center" style={{ minHeight: '1.9rem' }}>
               <span style={{ whiteSpace: 'pre' }}>{line.indent}</span>
-              <input
-                value={answers[i] ?? ''}
-                onChange={(e) => setAnswers((a) => ({ ...a, [i]: e.target.value }))}
-                disabled={checked}
-                spellCheck={false}
-                placeholder="type this line..."
-                className={`flex-1 rounded border bg-surface px-2 py-0.5 outline-none ${
-                  checked
-                    ? correct(i)
-                      ? 'border-good text-good'
-                      : 'border-bad text-bad'
-                    : 'border-line focus:border-line-strong text-ink'
+              <span
+                onDragOver={(e) => {
+                  if (answered) return
+                  e.preventDefault()
+                  setDragOver(true)
+                }}
+                onDragLeave={() => setDragOver(false)}
+                onDrop={(e) => {
+                  e.preventDefault()
+                  handleDrop(e.dataTransfer.getData('text/plain'))
+                }}
+                className={`inline-flex min-h-[1.6rem] min-w-[12rem] items-center rounded border-2 border-dashed px-2 py-0.5 transition-colors ${
+                  answered
+                    ? isRight
+                      ? 'border-good bg-[#e1f2f1] text-good'
+                      : 'border-bad bg-[#fbe7e3] text-bad'
+                    : dragOver
+                      ? 'border-line-strong bg-surface-2'
+                      : 'border-line bg-surface'
                 }`}
-              />
+              >
+                {dropped ?? <span className="text-ink-faint">drop the line here</span>}
+              </span>
             </div>
-          ) : (
-            <div key={i} style={{ whiteSpace: 'pre', minHeight: line.content ? '1.9rem' : '0.6rem' }} className="text-ink">
-              {line.text || ' '}
-            </div>
-          ),
-        )}
+          )
+        })}
       </div>
 
-      {!checked ? (
-        <button
-          onClick={() => setChecked(true)}
-          className="w-full rounded-2xl bg-py py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-        >
-          Check answers
-        </button>
-      ) : (
-        <div className="space-y-4">
-          <p className="text-sm font-semibold text-ink">
-            {numCorrect} / {blankIdx.length} blanks correct
-          </p>
-          {blankIdx.some((i) => !correct(i)) && (
-            <div className="rounded-2xl border border-line bg-surface p-4 text-sm">
-              <p className="mb-2 text-xs font-semibold tracking-wide text-ink-faint uppercase">
-                Correct lines
-              </p>
-              <ul className="space-y-1 font-mono">
-                {blankIdx
-                  .filter((i) => !correct(i))
-                  .map((i) => (
-                    <li key={i} className="text-good">
-                      {lines[i].content}
-                    </li>
-                  ))}
-              </ul>
+      {!answered && (
+        <div className="grid gap-2">
+          {options.map((opt) => (
+            <div
+              key={opt}
+              draggable
+              onDragStart={(e) => e.dataTransfer.setData('text/plain', opt)}
+              className="cursor-grab rounded-xl border border-line bg-surface px-3 py-2 font-mono text-sm text-ink transition-colors hover:border-line-strong active:cursor-grabbing"
+            >
+              {opt}
             </div>
-          )}
+          ))}
+        </div>
+      )}
+
+      {answered && (
+        <div className="space-y-4">
+          <p className="text-sm text-ink-soft">
+            {isRight ? (
+              'Correct.'
+            ) : (
+              <>
+                The correct line is <code className="text-good">{answer}</code>.
+              </>
+            )}
+          </p>
           <GradeBar onGrade={onGrade} />
         </div>
       )}

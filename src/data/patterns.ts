@@ -113,15 +113,17 @@ export const PATTERNS: Pattern[] = [
     prompt: 'merge(a, b) two sorted lists into one sorted list',
     template: `def merge(a, b):
     i = j = 0
-    res = []
+    result = []
     while i < len(a) and j < len(b):
         if a[i] <= b[j]:
-            res.append(a[i]); i += 1
+            result.append(a[i])
+            i += 1
         else:
-            res.append(b[j]); j += 1
-    res.extend(a[i:])
-    res.extend(b[j:])
-    return res`,
+            result.append(b[j])
+            j += 1
+    result.extend(a[i:])
+    result.extend(b[j:])
+    return result`,
     recognitionCues: [
       'Merge two sorted arrays into one sorted array',
       'Find the intersection of two sorted lists',
@@ -427,13 +429,13 @@ result = "".join(parts)`,
     related: ['binary-search'],
     prompt: 'next_greater(nums) -> for each i, the next element greater than nums[i] (else -1)',
     template: `def next_greater(nums):
-    res = [-1] * len(nums)
+    result = [-1] * len(nums)
     stack = []  # indices
     for i, x in enumerate(nums):
         while stack and nums[stack[-1]] < x:
-            res[stack.pop()] = x
+            result[stack.pop()] = x
         stack.append(i)
-    return res`,
+    return result`,
     recognitionCues: [
       'For each day, how many days until a warmer temperature',
       'Next greater element to the right',
@@ -480,13 +482,13 @@ from collections import deque
 def bfs(root):
     if not root:
         return []
-    q, res = deque([root]), []
+    q, result = deque([root]), []
     while q:
         node = q.popleft()
-        res.append(node.val)
+        result.append(node.val)
         if node.left: q.append(node.left)
         if node.right: q.append(node.right)
-    return res`,
+    return result`,
     recognitionCues: [
       'Return the level-order traversal of a binary tree',
       'Maximum depth of a binary tree',
@@ -697,15 +699,15 @@ def min_eating_speed(piles, h):
     related: ['tree-traversal', 'dynamic-programming'],
     prompt: 'subsets(nums) -> all subsets (the power set)',
     template: `def subsets(nums):
-    res = []
+    result = []
     def backtrack(start, path):
-        res.append(path[:])
+        result.append(path[:])
         for i in range(start, len(nums)):
             path.append(nums[i])
             backtrack(i + 1, path)
             path.pop()
     backtrack(0, [])
-    return res`,
+    return result`,
     recognitionCues: [
       'Generate all subsets of a set',
       'All permutations of a list',

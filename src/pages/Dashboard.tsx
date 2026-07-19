@@ -146,7 +146,7 @@ export function Dashboard() {
         </div>
       </section>
 
-      <section className="mt-10 grid gap-4 sm:grid-cols-3">
+      <section className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <QuickDrill
           to="/practice?kind=recognition"
           icon="fa-solid fa-lightbulb"
@@ -164,6 +164,12 @@ export function Dashboard() {
           icon="fa-solid fa-code"
           title="Syntax recall"
           blurb="Drill Python primitives."
+        />
+        <QuickDrill
+          to="/practice?mode=typing"
+          icon="fa-solid fa-stopwatch"
+          title="Typing marathon"
+          blurb="Type every algorithm, timed."
         />
       </section>
     </div>
